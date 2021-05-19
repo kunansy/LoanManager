@@ -61,7 +61,8 @@ def session(**kwargs) -> ContextManager[Session]:
 
 def get_loan(*,
              loan_id: int) -> Optional[Products]:
-    pass
+    with session() as ses:
+        return ses.query(Products).get(id=loan_id)
 
 
 def add_loan(*,
