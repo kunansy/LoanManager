@@ -3,7 +3,7 @@ import os
 import sys
 
 from sanic import Sanic, Request, HTTPResponse, response
-from sanic_openapi import swagger_blueprint
+from sanic_openapi import swagger_blueprint, doc
 from pydantic import BaseModel, constr, ValidationError
 
 from src import db_api
@@ -15,6 +15,11 @@ app.blueprint(swagger_blueprint)
 
 class Loan(BaseModel):
     product_name: constr(strip_whitespace=True, min_length=1)
+
+
+class LoanSchema:
+    id = doc.Integer(description="UUID of the loan")
+    productionName = doc.String(description="Name of the production")
 
 
 @app.post('/loans')
