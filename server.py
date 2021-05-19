@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 import os
+import sys
 
 from sanic import Sanic, Request, HTTPResponse, response
 from sanic_openapi import swagger_blueprint
-from pydantic import BaseModel, constr
+from pydantic import BaseModel, constr, ValidationError
 
 from src import db_api
 
@@ -18,7 +19,14 @@ class Loan(BaseModel):
 
 @app.post('/loans')
 async def add_loan(request: Request) -> HTTPResponse:
-    pass
+    try:
+        loan = Loan(product_name=request.body)
+    except ValidationError as e:
+        print(repr(e), file=sys.stderr)
+        return response.json(e.json(), status=400)
+
+    db_api.add_loan(product_name=loan.product_name)
+    return HTTPResponse(status=200)
 
 
 @app.get('/loans/<loan_id:int>')
