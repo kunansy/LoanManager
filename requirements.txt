@@ -1,0 +1,4 @@
+sanic==21.3.4
+sqlalchemy==1.4.15
+sanic-openapi==21.3.2
+pydantic==1.8.2
