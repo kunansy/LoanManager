@@ -23,6 +23,10 @@ class LoanSchema:
 
 
 @app.post('/loans')
+@doc.summary("Add a loan")
+@doc.consumes(doc.String(name="product_name"), location="body", required=True)
+@doc.response(200, {}, description="The loan added")
+@doc.response(400, {}, description="Validation error, wrong production name")
 async def add_loan(request: Request) -> HTTPResponse:
     try:
         loan = Loan(product_name=request.body)
