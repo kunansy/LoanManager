@@ -1,0 +1,17 @@
+version: "3.7"
+
+volumes:
+    db:
+
+services:
+    loan_manager:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - /db/:/app/data
+        environment:
+            TZ: "Europe/Moscow"
+            DB_URI: "sqlite:///data/loans.db"
+        ports:
+            - "127.0.0.1:8081:8081"
