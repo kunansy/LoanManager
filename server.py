@@ -39,6 +39,10 @@ async def add_loan(request: Request) -> HTTPResponse:
 
 
 @app.get('/loans/<loan_id:int>')
+@doc.summary("Get the loan")
+@doc.consumes(doc.Integer(name="loan_id"), location="query")
+@doc.produces(LoanSchema)
+@doc.response(404, {}, description="Loan with id not found")
 async def get_loan(request: Request,
                    loan_id: int) -> HTTPResponse:
     if (loan := db_api.get_loan(loan_id=loan_id)) is None:
