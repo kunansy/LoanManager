@@ -21,10 +21,13 @@ async def add_loan(request: Request) -> HTTPResponse:
     pass
 
 
-@app.get('/')
+@app.get('/loans/<loan_id:int>')
 async def get_loan(request: Request,
                    loan_id: int) -> HTTPResponse:
-    pass
+    if (loan := db_api.get_loan(loan_id=loan_id)) is None:
+        return HTTPResponse(status=404)
+
+    return response.json(loan.json())
 
 
 if __name__ == "__main__":
