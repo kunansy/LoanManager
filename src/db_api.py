@@ -67,4 +67,8 @@ def get_loan(*,
 
 def add_loan(*,
              product_name: str) -> None:
-    pass
+    with session() as ses:
+        loan = Products(
+            product_name=product_name
+        )
+        ses.add(loan)
